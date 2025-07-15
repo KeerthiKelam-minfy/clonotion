@@ -4,15 +4,13 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import LandingPage from './pages/LandingPage';``
 import './App.css';
 
 
 function App() {
   return (
     <Router>
-      <nav>
-        <Link to="/signup">Sign Up</Link> | <Link to="/login">Log In</Link> | <Link to="/dashboard">Dashboard</Link>
-      </nav>
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
@@ -24,7 +22,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/" element={<h2>Home Page</h2>} />
+        <Route path="/" element={<LandingPage />} />
       </Routes>
     </Router>
   );

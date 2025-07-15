@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 import { auth } from "../firebase";
 
 function Dashboard() {
@@ -37,22 +38,30 @@ function Dashboard() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">Dashboard</h2>
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-        >
-          Logout
-        </button>
-      </div>
+    <div className="flex h-screen">
+      <Sidebar />
+      <main className="flex-1 p-4">
+        <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+        <div className="max-w-2xl mx-auto p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-semibold">Dashboard</h2>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+              Logout
+            </button>
+          </div>
 
-      {data ? (
-        <pre className="bg-gray-100 p-4 rounded text-sm">{JSON.stringify(data, null, 2)}</pre>
-      ) : (
-        <p>Loading...</p>
-      )}
+          {data ? (
+            <pre className="bg-gray-100 p-4 rounded text-sm">
+              {JSON.stringify(data, null, 2)}
+            </pre>
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
+      </main>
     </div>
   );
 }
