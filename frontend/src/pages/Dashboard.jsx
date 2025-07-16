@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
 import { auth } from "../firebase";
 
 function Dashboard() {
@@ -39,7 +38,6 @@ function Dashboard() {
 
   return (
     <div className="flex h-screen">
-      <Sidebar />
       <main className="flex-1 p-4">
         <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
         <div className="max-w-2xl mx-auto p-6">
