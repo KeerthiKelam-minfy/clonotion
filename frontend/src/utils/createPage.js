@@ -1,4 +1,3 @@
-// src/utils/createPage.js
 import { db, auth } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
