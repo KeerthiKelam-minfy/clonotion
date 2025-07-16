@@ -2,21 +2,25 @@ import { useRef, useState, useEffect } from "react";
 import {
   FiChevronLeft,
   FiChevronRight,
+  FiChevronDown,
+  FiChevronUp,
   FiHome,
   FiStar,
-  FiFileText,
-  FiSearch,
+  FiFileText, 
+  FiLogOut,
 } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 
 function Sidebar() {
   const sidebarRef = useRef(null);
-  const [isDragging, setIsDragging] = useState(false);
   const [width, setWidth] = useState(240);
   const [collapsed, setCollapsed] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -29,11 +33,29 @@ function Sidebar() {
         }
       }
     };
-
     fetchUserName();
   }, []);
 
-  const toggleCollapse = () => setCollapsed(!collapsed);
+  const toggleCollapse = () => {
+    setCollapsed(!collapsed);
+    setDropdownOpen(false);
+  };
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate("/login");
+  };
+
+  // Click-away handler
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div
@@ -43,25 +65,45 @@ function Sidebar() {
       }`}
       style={{ width: collapsed ? 64 : width }}
     >
-      {/* Brand section + collapse toggle */}
-      <div className="flex items-center justify-between px-4 py-3 border-b">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3 border-b relative">
         {!collapsed && (
-          <div className="flex flex-col">
-            <span className="text-sm text-gray-500">
-              {userName ? `${userName}’s` : "..."}
-            </span>
-            <span className="text-lg font-semibold">Clonotion</span>
+          <div className="relative">
+            <button
+              onClick={() => setDropdownOpen((prev) => !prev)}
+              className="flex flex-col text-left focus:outline-none"
+            >
+              <span className="text-sm text-gray-500">
+                {userName ? `${userName}’s` : "..."}
+              </span>
+              <span className="text-lg font-semibold flex items-center gap-1">
+                Clonotion {dropdownOpen ? <FiChevronUp /> : <FiChevronDown />}
+              </span>
+            </button>
+
+            {dropdownOpen && (
+              <div className="absolute left-0 top-12 w-40 bg-white border rounded shadow z-50">
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-gray-100"
+                >
+                  <FiLogOut />
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         )}
 
         <button
           onClick={toggleCollapse}
-          className="p-2 hover:bg-gray-100 rounded"
+          className="p-2 hover:bg-gray-100 rounded ml-2"
         >
           {collapsed ? <FiChevronRight /> : <FiChevronLeft />}
         </button>
       </div>
 
+      {/* Nav */}
       <nav className="space-y-1 mt-2">
         <Link
           to="/dashboard"
