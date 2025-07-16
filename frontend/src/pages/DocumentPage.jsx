@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import DocumentNavbar from "../components/DocumentNavbar";
 
 function DocumentPage() {
   const { id } = useParams();
@@ -74,6 +75,7 @@ function DocumentPage() {
 
   return (
     <div className="p-4 max-w-3xl mx-auto">
+      <DocumentNavbar docId={id} />
       {editingTitle ? (
         <input
           autoFocus
@@ -82,14 +84,18 @@ function DocumentPage() {
           onBlur={async () => {
             setEditingTitle(false);
             if (title.trim()) {
-              await updateDoc(doc(db, "documents", id), { title: title.trim() });
+              await updateDoc(doc(db, "documents", id), {
+                title: title.trim(),
+              });
             }
           }}
           onKeyDown={async (e) => {
             if (e.key === "Enter") {
               setEditingTitle(false);
               if (title.trim()) {
-                await updateDoc(doc(db, "documents", id), { title: title.trim() });
+                await updateDoc(doc(db, "documents", id), {
+                  title: title.trim(),
+                });
               }
             }
           }}
