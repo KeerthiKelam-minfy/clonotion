@@ -3,12 +3,36 @@ import DocumentNavbar from "../components/DocumentNavbar";
 import useDocument from "../hooks/useDocument";
 import TitleEditor from "../components/TitleEditor";
 import NoAccessScreen from "../components/NoAccessScreen";
+import TiptapEditor from "../components/TiptapEditor";
+import ShowContent from "../components/ShowContent";
+import { useState } from "react";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 function DocumentPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const { documentData, loading, noAccess } = useDocument(id);
+
+  const [htmlContent, setHtmlContent] = useState("");
+
+  const handleEditorContentSave = async (html) => {
+    // here, instead of printing, I can also store this data in a database
+    // console.log(html);
+    setHtmlContent(html);
+
+    // saving to the database
+    try {
+      await setDoc(doc(db, "documents", id), {
+        ...documentData,
+        content: html,
+        updatedAt: Date.now()
+      })
+    }catch(err) {
+      console.log("Error saving doc: ", err)
+    }
+  };
 
   if (loading) {
     return (
@@ -23,10 +47,13 @@ function DocumentPage() {
   return (
     <div className="p-4 max-w-3xl mx-auto">
       <DocumentNavbar docId={id} />
-      <TitleEditor docId={id} />
+      <TitleEditor docId={id} initialTitle={documentData.title} />
 
-      {/* Add Tiptap editor here */}
-      <p className="text-gray-500">Editor will be here...</p>
+      {/* Tiptap editor */}
+      <TiptapEditor onEditorContentSave={handleEditorContentSave} 
+      initialContent={documentData.content || ""}/>
+      {/* <p className="text-gray-500">Editor will be here...</p> */}
+      {/* <ShowContent content={htmlContent}/> */}
     </div>
   );
 }

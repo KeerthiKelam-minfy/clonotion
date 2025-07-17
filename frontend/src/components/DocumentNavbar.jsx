@@ -9,7 +9,6 @@ function DocumentNavbar({ docId }) {
   const [access, setAccess] = useState("none");
   const [copySuccess, setCopySuccess] = useState(false);
 
-  // Load current access when mounted
   useEffect(() => {
     const fetchAccess = async () => {
       const docRef = doc(db, "documents", docId);
