@@ -1,20 +1,13 @@
 import { useState } from "react";
 import { FiFileText, FiMoreVertical, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 function SidebarPageItem({ page, onDelete, collapsed }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [title, setTitle] = useState(page.title || "Untitled Page");
+  const { title, setTitle } = useDocumentTitle(page.id);
   const navigate = useNavigate();
-
-  const handleSave = async () => {
-    setEditing(false);
-    const docRef = doc(db, "documents", page.id);
-    await updateDoc(docRef, { title });
-  };
 
   return (
     <div className="group relative flex items-center justify-between pr-2 hover:bg-gray-100">
@@ -23,9 +16,9 @@ function SidebarPageItem({ page, onDelete, collapsed }) {
           autoFocus
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          onBlur={handleSave}
+          onBlur={() => setEditing(false)}
           onKeyDown={(e) => {
-            if (e.key === "Enter") handleSave();
+            if (e.key === "Enter") setEditing(false);
           }}
           className="ml-4 py-1 text-sm border-b focus:outline-none w-full"
         />

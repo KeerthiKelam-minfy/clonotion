@@ -23,7 +23,7 @@ function DocumentPage() {
   return (
     <div className="p-4 max-w-3xl mx-auto">
       <DocumentNavbar docId={id} />
-      <TitleEditor docId={id} initialTitle={documentData.title} />
+      <TitleEditor docId={id} />
 
       {/* Add Tiptap editor here */}
       <p className="text-gray-500">Editor will be here...</p>
