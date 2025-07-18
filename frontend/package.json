@@ -12,6 +12,8 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
     "@tiptap/extension-bubble-menu": "^3.0.7",
+    "@tiptap/extension-collaboration": "^3.0.7",
+    "@tiptap/extension-collaboration-caret": "^3.0.7",
     "@tiptap/extension-floating-menu": "^3.0.7",
     "@tiptap/extension-heading": "^3.0.7",
     "@tiptap/extension-image": "^3.0.7",
@@ -20,6 +22,7 @@
     "@tiptap/react": "^3.0.6",
     "@tiptap/starter-kit": "^3.0.6",
     "@tiptap/suggestion": "^3.0.7",
+    "@tiptap/y-tiptap": "^3.0.0",
     "firebase": "^11.10.0",
     "html-react-parser": "^5.2.5",
     "lodash": "^4.17.21",
@@ -27,7 +30,10 @@
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.6.3",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "y-webrtc": "^10.3.0",
+    "y-websocket": "^3.0.0",
+    "yjs": "^13.6.27"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",

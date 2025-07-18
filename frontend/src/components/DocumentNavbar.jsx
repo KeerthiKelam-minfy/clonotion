@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FiStar } from "react-icons/fi";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { getAuth } from "firebase/auth";
 
 function DocumentNavbar({ docId }) {
   const [starred, setStarred] = useState(false);
@@ -9,12 +10,21 @@ function DocumentNavbar({ docId }) {
   const [access, setAccess] = useState("none");
   const [copySuccess, setCopySuccess] = useState(false);
 
+  const [isOwner, setIsOwner] = useState(false)
+
   useEffect(() => {
     const fetchAccess = async () => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if(!user) return;
+
       const docRef = doc(db, "documents", docId);
       const snap = await getDoc(docRef);
       if (snap.exists()) {
-        setAccess(snap.data().access || "none");
+        const data = snap.data();
+        setAccess(data.access || "none");
+
+        setIsOwner(data.owner === user.uid)
       }
     };
     fetchAccess();
@@ -32,19 +42,21 @@ function DocumentNavbar({ docId }) {
     setTimeout(() => setCopySuccess(false), 2000);
   };
 
+  if (!isOwner) return null;
+
   return (
     <div className="flex justify-end items-center px-4 py-2 border-b bg-white relative">
       {/* Share */}
       <div className="relative">
         <button
           onClick={() => setShareOpen((prev) => !prev)}
-          className="text-gray-700 hover:bg-gray-100 px-3 py-1 rounded text-sm"
+          
         >
           Share
         </button>
 
         {shareOpen && (
-          <div className="absolute right-0 mt-2 w-64 bg-white border rounded shadow z-50 p-3">
+          <div className="absolute right-0 mt-2 w-64 bg-white rounded shadow z-50 p-3">
             <p className="text-sm font-medium mb-2">Anyone with the link:</p>
 
             <div className="space-y-1 mb-3">
@@ -67,7 +79,7 @@ function DocumentNavbar({ docId }) {
 
             <button
               onClick={handleCopyLink}
-              className="w-full bg-gray-100 hover:bg-gray-200 text-sm px-3 py-2 rounded"
+              // className="w-full bg-gray-100 hover:bg-gray-200 text-sm px-3 py-2 rounded"
             >
               {copySuccess ? "Copied!" : "Copy link"}
             </button>
@@ -78,7 +90,7 @@ function DocumentNavbar({ docId }) {
       {/* Star */}
       <button
         onClick={() => setStarred(!starred)}
-        className="ml-2 p-2 hover:bg-gray-100 rounded"
+        // className="ml-2 p-2 hover:bg-gray-100 rounded"
         title="Star"
       >
         <FiStar

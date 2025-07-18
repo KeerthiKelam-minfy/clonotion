@@ -1,24 +1,62 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useState } from "react";
-const extensions = [StarterKit];
 import BubbleMenuComponent from "./BubbleMenu";
+import { useEffect, useRef } from "react";
+// import CollaborationCaret from '@tiptap/extension-collaboration-caret';
+// import Collaboration from '@tiptap/extension-collaboration'
 
-const content = ``;
-const TiptapEditor = ({onEditorContentSave, initialContent}) => {
+/* 
+1. Setup tiptap editor -> done
+2. Attach Yjs text to tiptap editor
+3. 
+*/
+
+const TiptapEditor = ({ onEditorContentSave, initialContent }) => {
+  const extensions = [
+    StarterKit,
+    // Collaboration.configure({
+    //   document: ydoc,
+    // }),
+    // CollaborationCaret.configure({
+    //   provider
+    // })
+  ];
+
+  const debounceTimer = useRef(null);
+
   const editor = useEditor({
     extensions,
-    content: initialContent || '',
+    onUpdate: ({ editor }) => {
+      clearTimeout(debounceTimer.current);
+
+      // Debounce auto-save
+      debounceTimer.current = setTimeout(() => {
+        const html = editor.getHTML();
+        onEditorContentSave(html);
+      }, 1500);
+    },
   });
+
+  // fixes the bug of abnormal behaviour of the pages content.
+  useEffect(() => {
+    if (editor && initialContent !== editor.getHTML()) {
+      editor.commands.setContent(initialContent, false); // false = don't add to history
+    }
+  }, [editor, initialContent]);
+
   if (!editor) {
     return null;
   }
 
-  const handleEditorContent = () => {
-    const html = editor.getHTML();
-    // console.log(html);
-    onEditorContentSave(html);
-  };
+  // const handleEditorContent = () => {
+  //   const html = editor.getHTML();
+  //   // console.log(html);
+  //   onEditorContentSave(html);
+  // };
+
+  // const handleEditorDidMount = (editor, TiptapEditor) => {
+
+  // }
 
   return (
     <div className="editor-shield">
@@ -156,10 +194,10 @@ const TiptapEditor = ({onEditorContentSave, initialContent}) => {
       </div>
       <div>
         {editor && <BubbleMenuComponent editor={editor} />}
-          
+        
         <EditorContent editor={editor} />
       </div>
-      <button onClick={handleEditorContent}>Save</button>
+      {/* <button onClick={handleEditorContent}>Save</button> */}
     </div>
   );
 };
