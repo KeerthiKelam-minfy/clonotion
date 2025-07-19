@@ -6,8 +6,6 @@ import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCaret from "@tiptap/extension-collaboration-caret";
 import { getAuth } from "firebase/auth";
 import { useState } from "react";
-import { getDoc, doc } from "firebase/firestore";
-import { db } from "../firebase";
 
 const TiptapEditor = ({
   onEditorContentSave,
@@ -42,43 +40,24 @@ const TiptapEditor = ({
     "#E3F4F4",
   ];
 
-  const getRandomElement = (list) =>
-    list[Math.floor(Math.random() * list.length)];
+  const getRandomElement = list => list[Math.floor(Math.random() * list.length)]
 
   const getRandomColor = () => getRandomElement(colors);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const auth = getAuth();
-      const user = auth.currentUser;
+  const getInitialUser = () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    // const currentUserName =
+    //   auth.currentUser?.name || auth.currentUser?.email || "Anonymous";
 
-      if (!user) return;
-
-      let name = user.displayName || user.email || "Anonymous";
-
-      try {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          if (userData.name) {
-            name = userData.name;
-          }
-        }
-      } catch (err) {
-        console.error("Failed to fetch user from Firestore", err);
-      }
-
-      setCurrentUser({
-        name,
-        color: getRandomColor(),
-      });
+    return {
+      name: user?.displayName || "Anonymous",
+      color: getRandomColor(),
     };
-
-    fetchUserData();
-  }, []);
+  };
 
   const [status, setStatus] = useState("connecting");
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(getInitialUser);
 
   const extensions = [
     StarterKit,
@@ -116,6 +95,18 @@ const TiptapEditor = ({
     },
   });
 
+  useEffect(() => {
+    // Update status changes
+    const statusHandler = (event) => {
+      setStatus(event.status);
+    };
+
+    provider.on("status", statusHandler);
+
+    return () => {
+      provider.off("status", statusHandler);
+    };
+  }, [provider]);
 
   useEffect(() => {
     if (editor && currentUser) {
@@ -278,22 +269,26 @@ const TiptapEditor = ({
         className="collab-status-group"
         data-state={status === "connected" ? "online" : "offline"}
       >
-        
+        <label>
+          {status === "connected"
+            ? `${editor.storage.collaborationCaret.users.length} user${
+                editor.storage.collaborationCaret.users.length === 1 ? "" : "s"
+              } online in ${room}`
+            : "offline"}
+        </label>
 
         {/* Just show name + color without editing */}
-        {currentUser && (
-          <div
-            style={{
-              backgroundColor: currentUser.color,
-              padding: "4px 8px",
-              borderRadius: "4px",
-              color: "white",
-              marginLeft: "8px",
-            }}
-          >
-            👤 {currentUser.name}
-          </div>
-        )}
+        <div
+          style={{
+            backgroundColor: currentUser.color,
+            padding: "4px 8px",
+            borderRadius: "4px",
+            color: "white",
+            marginLeft: "8px",
+          }}
+        >
+          👤 {currentUser.name}
+        </div>
       </div>
 
       {/* <button onClick={handleEditorContent}>Save</button> */}

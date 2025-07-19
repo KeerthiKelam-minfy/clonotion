@@ -10,7 +10,7 @@ import { db } from "../firebase";
 import { getAuth } from "firebase/auth";
 import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
-import "./TiptapStyles.css";
+import './TiptapStyles.css'
 
 function DocumentPage() {
   const { id } = useParams();
@@ -27,7 +27,9 @@ function DocumentPage() {
   useEffect(() => {
     const ydoc = new Y.Doc();
     const provider = new WebrtcProvider(room, ydoc, {
-      signaling: ["ws://localhost:4444"],
+signaling: ['ws://localhost:4444']
+
+
     });
 
     ydocRef.current = ydoc;
@@ -69,23 +71,20 @@ function DocumentPage() {
     documentData.owner === currentUserId || documentData.access === "edit";
 
   return (
-    <div className="editor-wrapper overflow-y-auto h-screen p-4">
-      <div className="p-4 max-w-3xl mx-auto">
-        <DocumentNavbar docId={id} />
-        <TitleEditor
-          docId={id}
-          initialTitle={documentData.title}
-          canEdit={canEdit}
-        />
-
-        <TiptapEditor
-          onEditorContentSave={handleEditorContentSave}
-          initialContent={documentData.content || ""}
-          provider={providerRef.current}
-          ydoc={ydocRef.current}
-          room={room}
-        />
-      </div>
+    <div className="p-4 max-w-3xl mx-auto">
+      <DocumentNavbar docId={id} />
+      <TitleEditor
+        docId={id}
+        initialTitle={documentData.title}
+        canEdit={canEdit}
+      />
+      <TiptapEditor
+        onEditorContentSave={handleEditorContentSave}
+        initialContent={documentData.content || ""}
+        provider={providerRef.current}
+        ydoc={ydocRef.current}
+        room={room}
+      />
     </div>
   );
 }

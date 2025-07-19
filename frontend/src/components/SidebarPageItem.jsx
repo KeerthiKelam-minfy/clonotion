@@ -28,7 +28,7 @@ function SidebarPageItem({ page, onDelete, collapsed }) {
           onClick={() => navigate(`/document/${page.id}`)}
           className="flex items-center gap-2 px-4 py-2 w-full text-left"
         >
-          <FiFileText />
+     
           {!collapsed && <span className="truncate">{title}</span>}
         </button>
       )}

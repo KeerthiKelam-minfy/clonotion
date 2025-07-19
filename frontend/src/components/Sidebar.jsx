@@ -63,8 +63,7 @@ function Sidebar() {
           {collapsed ? <FiChevronRight /> : <FiChevronLeft />}
         </button>
       </div>
-
-      {/* Nav */}
+      <div className="editor-wrapper overflow-y-auto h-screen p-4">
       <SidebarNav
         collapsed={collapsed}
         loading={loading}
@@ -72,6 +71,7 @@ function Sidebar() {
         handleCreatePage={() => handleCreatePage(setPages, navigate)}
         handleDeletePage={(pageId) => handleDeletePage(pageId, setPages)}
       />
+    </div>
     </div>
   );
 }
