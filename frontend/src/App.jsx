@@ -1,4 +1,3 @@
-// src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -13,12 +12,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Public routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Protected routes */}
         <Route
           path="/*"
           element={

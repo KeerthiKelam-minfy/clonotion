@@ -4,13 +4,11 @@ import { FiHome, FiSearch, FiFileText, FiPlus } from "react-icons/fi";
 import SidebarPageItem from "./SidebarPageItem";
 
 export default function SidebarNav({
-  collapsed,
   loading,
   pages,
   handleCreatePage,
   handleDeletePage,
 }) {
-
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -27,7 +25,7 @@ export default function SidebarNav({
         className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"
       >
         <FiHome />
-        {!collapsed && <span>Home</span>}
+        <span>Home</span>
       </Link>
 
       <button
@@ -35,10 +33,10 @@ export default function SidebarNav({
         onClick={() => setSearchOpen(!searchOpen)}
       >
         <FiSearch />
-        {!collapsed && <span>Search</span>}
+        <span>Search</span>
       </button>
 
-      {!collapsed && searchOpen && (
+      {searchOpen && (
         <div className="px-4">
           <input
             type="text"
@@ -53,29 +51,25 @@ export default function SidebarNav({
       <div className="flex items-center justify-between pr-4">
         <button className="flex items-center gap-2 px-4 py-2 w-full hover:bg-gray-100">
           <FiFileText />
-          {!collapsed && <span>My Pages</span>}
+          <span>My Pages</span>
         </button>
-        {!collapsed && (
-          <button
-            onClick={handleCreatePage}
-            className="p-1 hover:bg-gray-200 rounded"
-            title="New Page"
-          >
-            <FiPlus />
-          </button>
-        )}
+
+        <button
+          onClick={handleCreatePage}
+          className="p-1 hover:bg-gray-200 rounded"
+          title="New Page"
+        >
+          <FiPlus />
+        </button>
       </div>
 
-      {loading && !collapsed && (
-        <p className="text-gray-500 px-4 py-2 text-sm">Loading...</p>
-      )}
+      {loading && <p className="text-gray-500 px-4 py-2 text-sm">Loading...</p>}
 
       {filteredPages.map((page) => (
         <SidebarPageItem
           key={page.id}
           page={page}
           onDelete={() => handleDeletePage(page.id)}
-          collapsed={collapsed}
         />
       ))}
     </nav>

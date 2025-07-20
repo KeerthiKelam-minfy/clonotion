@@ -18,6 +18,7 @@ const TiptapEditor = ({
   provider,
   room,
   canEdit,
+  cannotAccess,
 }) => {
   const colors = [
     "#958DF1",
@@ -171,12 +172,15 @@ const TiptapEditor = ({
     };
   }, [provider]);
 
-  // // fixes the bug of abnormal behaviour of the pages content.
-  // useEffect(() => {
-  //   if (editor && initialContent !== editor.getHTML()) {
-  //     editor.commands.setContent(initialContent, false); // false = don't add to history
-  //   }
-  // }, [editor, initialContent]);
+  // fixes the bug of abnormal behaviour of the pages content.
+  if(cannotAccess) {
+    useEffect(() => {
+    if (editor && initialContent !== editor.getHTML()) {
+      editor.commands.setContent(initialContent, false); // false = don't add to history
+    }
+  }, [editor, initialContent]);
+  }
+  
 
   if (!editor) {
     return null;

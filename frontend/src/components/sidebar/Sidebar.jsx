@@ -10,16 +10,10 @@ import SidebarNav from "./SidebarNav";
 
 function Sidebar() {
   const sidebarRef = useRef(null);
-  const [collapsed, setCollapsed] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   const { userName, pages, setPages, loading } = useUserPages();
-
-  const toggleCollapse = () => {
-    setCollapsed((prev) => !prev);
-    setDropdownOpen(false);
-  };
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -40,32 +34,20 @@ function Sidebar() {
   return (
     <div
       ref={sidebarRef}
-      className={`relative bg-white border-r transition-all duration-300 h-screen ${
-        collapsed ? "w-16" : ""
-      }`}
-      style={{ width: collapsed ? 64 : 240 }}
+      className="relative bg-white border-r transition-all duration-300 h-screen w-60"
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b relative">
-        {!collapsed && (
+      <div className="flex items-center justify-between px-4 py-3 border-b">
           <UserDropdown
             userName={userName}
             dropdownOpen={dropdownOpen}
             setDropdownOpen={setDropdownOpen}
             handleLogout={handleLogout}
           />
-        )}
-
-        <button
-          onClick={toggleCollapse}
-          className="p-2 hover:bg-gray-100 rounded ml-2"
-        >
-          {collapsed ? <FiChevronRight /> : <FiChevronLeft />}
-        </button>
       </div>
+
       <div className="editor-wrapper overflow-y-auto h-screen p-4">
       <SidebarNav
-        collapsed={collapsed}
         loading={loading}
         pages={pages}
         handleCreatePage={() => handleCreatePage(setPages, navigate)}

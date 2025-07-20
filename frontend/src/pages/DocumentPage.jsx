@@ -5,12 +5,13 @@ import TitleEditor from "../components/editor/TitleEditor";
 import NoAccessScreen from "../components/NoAccessScreen";
 import TiptapEditor from "../components/editor/TiptapEditor";
 import { useState, useEffect, useRef } from "react";
-// import { doc, setDoc } from "firebase/firestore";
-// import { db } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 import { getAuth } from "firebase/auth";
 import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import "./TiptapStyles.css";
+import { getDoc } from "firebase/firestore";
 
 const DocumentPage = () => {
   const { id } = useParams();
@@ -19,10 +20,11 @@ const DocumentPage = () => {
   const [htmlContent, setHtmlContent] = useState("");
   // const [commentsMap, setCommentsMap] = useState({});
   // const [activeCommentId, setActiveCommentId] = useState(null);
+  const [initialContent, setInitialContent] = useState("");
+  const [access, setAccess] = useState("none");
 
   const room = id;
 
-  // Refs for yjs and provider
   const ydocRef = useRef(null);
   const providerRef = useRef(null);
 
@@ -40,6 +42,16 @@ const DocumentPage = () => {
       ydoc.destroy();
     };
   }, [room]);
+
+  useEffect(() => {
+    const fetchDoc = async () => {
+      const snap = await getDoc(doc(db, "documents", id));
+      if (snap.exists()) {
+        setInitialContent(snap.data().content);
+      }
+    };
+    fetchDoc();
+  }, [id]);
 
   // const handleCommentActivated = (commentId) => {
   //   setActiveCommentId(commentId);
@@ -74,6 +86,9 @@ const DocumentPage = () => {
   const canEdit =
     documentData.owner === currentUserId || documentData.access === "edit";
 
+    const cannotAccess =
+    documentData.owner === currentUserId || documentData.access === "none";
+
   return (
     <div className="editor-wrapper overflow-y-auto h-screen p-4">
       <div className="p-4 max-w-3xl mx-auto">
@@ -86,7 +101,7 @@ const DocumentPage = () => {
 
         <TiptapEditor
           onEditorContentSave={handleEditorContentSave}
-          initialContent={documentData.content || ""}
+          initialContent={documentData.content}
           provider={providerRef.current}
           ydoc={ydocRef.current}
           room={room}
@@ -94,6 +109,7 @@ const DocumentPage = () => {
           // setCommentsMap={setCommentsMap}
           // onCommentActivated={handleCommentActivated}
           canEdit={canEdit}
+          cannotAccess={cannotAccess}
         />
 
         {/* {activeCommentId && commentsMap[activeCommentId] && (

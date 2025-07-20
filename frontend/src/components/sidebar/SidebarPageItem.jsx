@@ -31,12 +31,11 @@ function SidebarPageItem({ page, onDelete, collapsed }) {
           }}
           className="flex items-center gap-2 px-4 py-2 w-full text-left"
         >
-          {!collapsed && <span className="truncate">{title}</span>}
+          <span className="truncate">{title}</span>
         </button>
       )}
 
-      {!collapsed && (
-        <>
+     
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded"
@@ -54,8 +53,8 @@ function SidebarPageItem({ page, onDelete, collapsed }) {
               </button>
             </div>
           )}
-        </>
-      )}
+  
+      
     </div>
   );
 }

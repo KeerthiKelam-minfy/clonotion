@@ -14,7 +14,7 @@ export default function TitleEditor({ docId, initialTitle, canEdit }) {
       placeholder="Untitled"
       readOnly={!canEdit}
       style={{
-        cursor: canEdit ? "text" : "not-allowed",
+        caret: canEdit ? "text" : "not-allowed",
       }}
     />
   );

@@ -1,6 +1,6 @@
 import { BubbleMenu } from "@tiptap/react/menus";
-import { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+// import { useState, useEffect } from "react";
+// import { v4 as uuidv4 } from "uuid";
 
 const BubbleMenuComponent = ({ editor }) => {
   // const [commentInput, setCommentInput] = useState("");
@@ -66,8 +66,9 @@ const BubbleMenuComponent = ({ editor }) => {
           <button onClick={() => editor.chain().focus().toggleStrike().run()}>
             <s>S</s>
           </button>
-          {/* <button onClick={addComment}>💬 Add Comment</button>
-          <button onClick={removeComment}>❌ Remove</button> */}
+          
+          {/* <button onClick={addComment}> Add Comment</button>
+          <button onClick={removeComment}> Remove</button> */}
         </div>
       </BubbleMenu>
 

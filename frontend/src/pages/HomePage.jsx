@@ -1,4 +1,3 @@
-// src/pages/HomePage.jsx
 function HomePage() {
   return (
     <div className="p-8">
