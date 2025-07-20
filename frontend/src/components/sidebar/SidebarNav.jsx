@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FiHome, FiStar, FiSearch, FiFileText, FiPlus } from "react-icons/fi";
+import { FiHome, FiSearch, FiFileText, FiPlus } from "react-icons/fi";
 import SidebarPageItem from "./SidebarPageItem";
 
 export default function SidebarNav({
@@ -49,11 +49,6 @@ export default function SidebarNav({
           />
         </div>
       )}
-
-      <button className="flex items-center gap-2 px-4 py-2 w-full hover:bg-gray-100">
-        <FiStar />
-        {!collapsed && <span>Favorites</span>}
-      </button>
 
       <div className="flex items-center justify-between pr-4">
         <button className="flex items-center gap-2 px-4 py-2 w-full hover:bg-gray-100">

@@ -1,22 +1,24 @@
 import { useParams, useNavigate } from "react-router-dom";
 import DocumentNavbar from "../components/DocumentNavbar";
 import useDocument from "../hooks/useDocument";
-import TitleEditor from "../components/TitleEditor";
+import TitleEditor from "../components/editor/TitleEditor";
 import NoAccessScreen from "../components/NoAccessScreen";
-import TiptapEditor from "../components/TiptapEditor";
+import TiptapEditor from "../components/editor/TiptapEditor";
 import { useState, useEffect, useRef } from "react";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase";
+// import { doc, setDoc } from "firebase/firestore";
+// import { db } from "../firebase";
 import { getAuth } from "firebase/auth";
 import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import "./TiptapStyles.css";
 
-function DocumentPage() {
+const DocumentPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { documentData, loading, noAccess } = useDocument(id);
   const [htmlContent, setHtmlContent] = useState("");
+  // const [commentsMap, setCommentsMap] = useState({});
+  // const [activeCommentId, setActiveCommentId] = useState(null);
 
   const room = id;
 
@@ -27,7 +29,7 @@ function DocumentPage() {
   useEffect(() => {
     const ydoc = new Y.Doc();
     const provider = new WebrtcProvider(room, ydoc, {
-      signaling: ["ws://localhost:4444"],
+      signaling: ["https://y-webrtc-server-60a7.onrender.com/"],
     });
 
     ydocRef.current = ydoc;
@@ -38,6 +40,10 @@ function DocumentPage() {
       ydoc.destroy();
     };
   }, [room]);
+
+  // const handleCommentActivated = (commentId) => {
+  //   setActiveCommentId(commentId);
+  // };
 
   const handleEditorContentSave = async (html) => {
     setHtmlContent(html);
@@ -84,10 +90,20 @@ function DocumentPage() {
           provider={providerRef.current}
           ydoc={ydocRef.current}
           room={room}
+          // commentsMap={commentsMap}
+          // setCommentsMap={setCommentsMap}
+          // onCommentActivated={handleCommentActivated}
+          canEdit={canEdit}
         />
+
+        {/* {activeCommentId && commentsMap[activeCommentId] && (
+          <div className="mt-4 p-3 rounded bg-yellow-100 border border-yellow-300 text-sm text-gray-800">
+            💬 <strong>Comment:</strong> {commentsMap[activeCommentId]}
+          </div>
+        )} */}
       </div>
     </div>
   );
-}
+};
 
 export default DocumentPage;

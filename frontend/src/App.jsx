@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import HomePage from "./pages/HomePage";
 import DocumentPage from "./pages/DocumentPage";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/sidebar/Sidebar";
 import LandingPage from "./pages/LandingPage";
 import './App.css'
 

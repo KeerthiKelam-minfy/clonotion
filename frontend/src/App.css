@@ -3,3 +3,8 @@
 .editor-shield * {
   all: revert;
 }
+
+.comment-mark {
+  background-color: yellow;
+  border-bottom: 1px dotted #333;
+}

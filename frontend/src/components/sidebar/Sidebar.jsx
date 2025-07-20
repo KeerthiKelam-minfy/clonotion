@@ -2,9 +2,9 @@ import { useRef, useState, useEffect } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase";
-import useUserPages from "../hooks/useUserPages";
-import { handleCreatePage, handleDeletePage } from "../utils/pageActions";
+import { auth } from "../../firebase";
+import useUserPages from "../../hooks/useUserPages";
+import { handleCreatePage, handleDeletePage } from "../../utils/pageActions";
 import UserDropdown from "./UserDropdown";
 import SidebarNav from "./SidebarNav";
 

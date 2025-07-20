@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FiFileText, FiMoreVertical, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 function SidebarPageItem({ page, onDelete, collapsed }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,10 +25,12 @@ function SidebarPageItem({ page, onDelete, collapsed }) {
       ) : (
         <button
           onDoubleClick={() => setEditing(true)}
-          onClick={() => navigate(`/document/${page.id}`)}
+          // onClick={() => navigate(`/document/${page.id}`)}
+          onClick={() => {
+            window.location.href = `/document/${page.id}`;
+          }}
           className="flex items-center gap-2 px-4 py-2 w-full text-left"
         >
-     
           {!collapsed && <span className="truncate">{title}</span>}
         </button>
       )}

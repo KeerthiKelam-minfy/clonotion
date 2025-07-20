@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
-import { FiStar } from "react-icons/fi";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { getAuth } from "firebase/auth";
 
 function DocumentNavbar({ docId }) {
-  const [starred, setStarred] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [access, setAccess] = useState("none");
   const [copySuccess, setCopySuccess] = useState(false);
@@ -46,7 +44,7 @@ function DocumentNavbar({ docId }) {
 
   return (
     <div className="flex justify-end items-center px-4 py-2 border-b bg-white relative">
-      {/* Share */}
+      {/* Share  */}
       <div className="relative">
         <button
           onClick={() => setShareOpen((prev) => !prev)}
@@ -79,24 +77,13 @@ function DocumentNavbar({ docId }) {
 
             <button
               onClick={handleCopyLink}
-              // className="w-full bg-gray-100 hover:bg-gray-200 text-sm px-3 py-2 rounded"
+              className="w-full bg-gray-100 hover:bg-gray-200 text-sm px-3 py-2 rounded"
             >
               {copySuccess ? "Copied!" : "Copy link"}
             </button>
           </div>
         )}
       </div>
-
-      {/* Star */}
-      <button
-        onClick={() => setStarred(!starred)}
-        // className="ml-2 p-2 hover:bg-gray-100 rounded"
-        title="Star"
-      >
-        <FiStar
-          className={`w-5 h-5 ${starred ? "text-yellow-400 fill-yellow-400" : "text-gray-700"}`}
-        />
-      </button>
     </div>
   );
 }

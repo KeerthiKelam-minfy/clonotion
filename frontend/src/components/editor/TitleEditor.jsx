@@ -1,4 +1,4 @@
-import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 export default function TitleEditor({ docId, initialTitle, canEdit }) {
   const { title, setTitle } = useDocumentTitle(docId, initialTitle);
