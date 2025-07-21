@@ -1,10 +1,10 @@
 # Clonotion - Real time collaboration tool
   
-**## Application Overview**
+## Application Overview
   
 Clonotion - A real time collaboration tool with rich text editing capabilities that helps you and your team document your work, in a very organized way, see what your teammates are editing, live cursor tracking, see who all are viewing your document and many more.
   
-**## Setup Instructions**
+## **Setup Instructions**
   
 ## Clone the repository
   
