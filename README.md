@@ -88,7 +88,7 @@ After starting the backend, you can view the openAPI spec on:
   
   
      
-### Application Interface Demo:  
+## Application Interface Demo:  
    
 **Landing Page**
 <img width="1919" height="970" alt="image" src="https://github.com/user-attachments/assets/b4b8b968-ed4e-4435-ab06-d5717086536b" />
