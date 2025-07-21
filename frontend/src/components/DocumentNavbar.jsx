@@ -43,18 +43,18 @@ function DocumentNavbar({ docId }) {
   if (!isOwner) return null;
 
   return (
-    <div className="flex justify-end items-center px-4 py-2 border-b bg-white relative">
+    <div className="flex justify-end items-center px-4 py-2 border-b bg-inherit relative">
       {/* Share  */}
       <div className="relative">
         <button
+          className=" bg-orange-700 px-2 py-1.5 text-white rounded cursor-pointer hover:bg-amber-600"
           onClick={() => setShareOpen((prev) => !prev)}
-          
         >
           Share
         </button>
 
         {shareOpen && (
-          <div className="absolute right-0 mt-2 w-64 bg-white rounded shadow z-50 p-3">
+          <div className="absolute bg-orange-100 right-0 mt-2 w-64 rounded z-50 p-3">
             <p className="text-sm font-medium mb-2">Anyone with the link:</p>
 
             <div className="space-y-1 mb-3">
@@ -77,7 +77,7 @@ function DocumentNavbar({ docId }) {
 
             <button
               onClick={handleCopyLink}
-              className="w-full bg-gray-100 hover:bg-gray-200 text-sm px-3 py-2 rounded"
+              className="w-full bg-amber-200 hover:bg-amber-100 text-sm px-3 py-2 rounded cursor-pointer"
             >
               {copySuccess ? "Copied!" : "Copy link"}
             </button>

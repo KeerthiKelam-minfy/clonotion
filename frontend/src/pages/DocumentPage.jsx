@@ -90,7 +90,7 @@ const DocumentPage = () => {
     documentData.owner === currentUserId || documentData.access === "none";
 
   return (
-    <div className="editor-wrapper overflow-y-auto h-screen p-4">
+    <div className="editor-wrapper overflow-y-auto h-screen p-4 bg-gradient-to-b from-amber-100 via-orange-100 to-rose-50">
       <div className="p-4 max-w-3xl mx-auto">
         <DocumentNavbar docId={id} />
         <TitleEditor
@@ -99,7 +99,8 @@ const DocumentPage = () => {
           canEdit={canEdit}
         />
 
-        <TiptapEditor
+<div className="">
+<TiptapEditor
           onEditorContentSave={handleEditorContentSave}
           initialContent={documentData.content}
           provider={providerRef.current}
@@ -112,6 +113,8 @@ const DocumentPage = () => {
           cannotAccess={cannotAccess}
         />
 
+</div>
+        
         {/* {activeCommentId && commentsMap[activeCommentId] && (
           <div className="mt-4 p-3 rounded bg-yellow-100 border border-yellow-300 text-sm text-gray-800">
             💬 <strong>Comment:</strong> {commentsMap[activeCommentId]}

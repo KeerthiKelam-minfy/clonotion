@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { auth, db } from "../firebase";
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 
-export default function useUserPages() {
+const useUserPages = () => {
   const [userName, setUserName] = useState("");
   const [pages, setPages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,3 +39,5 @@ export default function useUserPages() {
 
   return { userName, pages, setPages, loading };
 }
+
+export default useUserPages;

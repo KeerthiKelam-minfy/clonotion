@@ -2,7 +2,7 @@ const EditorToolbar = ({ editor }) => {
   if (!editor) return null;
 
   return (
-    <div className="toolbar">
+    <div className="flex flex-wrap gap-2 bg-white border-b border-amber-900 mb-2 shadow-sm px-1.5 py-1.5 [&>button]:cursor-pointer [&>button:hover]:bg-yellow-50 [&>button]:px-1">
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}

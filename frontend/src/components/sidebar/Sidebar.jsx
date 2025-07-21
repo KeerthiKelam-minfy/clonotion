@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
@@ -34,26 +33,28 @@ function Sidebar() {
   return (
     <div
       ref={sidebarRef}
-      className="relative bg-white border-r transition-all duration-300 h-screen w-60"
+      className="relative transition-all duration-300 h-screen w-60 bg-gradient-to-b from-amber-100 via-orange-100 to-rose-50"
     >
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b">
+      <div className="text-amber-950">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 bg-gradient-65 from-amber-100 via-orange-100 to-rose-50">
           <UserDropdown
             userName={userName}
             dropdownOpen={dropdownOpen}
             setDropdownOpen={setDropdownOpen}
             handleLogout={handleLogout}
           />
-      </div>
+        </div>
 
-      <div className="editor-wrapper overflow-y-auto h-screen p-4">
-      <SidebarNav
-        loading={loading}
-        pages={pages}
-        handleCreatePage={() => handleCreatePage(setPages, navigate)}
-        handleDeletePage={(pageId) => handleDeletePage(pageId, setPages)}
-      />
-    </div>
+        <div className="overflow-y-auto h-screen p-4">
+          <SidebarNav
+            loading={loading}
+            pages={pages}
+            handleCreatePage={() => handleCreatePage(setPages, navigate)}
+            handleDeletePage={(pageId) => handleDeletePage(pageId, setPages)}
+          />
+        </div>
+      </div>
     </div>
   );
 }

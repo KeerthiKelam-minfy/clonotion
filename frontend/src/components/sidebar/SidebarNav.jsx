@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FiHome, FiSearch, FiFileText, FiPlus } from "react-icons/fi";
 import SidebarPageItem from "./SidebarPageItem";
 
@@ -11,6 +11,7 @@ export default function SidebarNav({
 }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
 
   const filteredPages = searchQuery
     ? pages.filter((page) =>
@@ -22,14 +23,17 @@ export default function SidebarNav({
     <nav className="space-y-1 mt-2">
       <Link
         to="/dashboard"
-        className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"
+        className={`flex items-center gap-2 px-4 py-2 rounded ${
+          location.pathname === '/dashboard' 
+          ? "bg-orange-700 text-white" : "hover:bg-orange-600"
+        }`}
       >
         <FiHome />
         <span>Home</span>
       </Link>
 
       <button
-        className="flex items-center gap-2 px-4 py-2 w-full hover:bg-gray-100"
+        className="flex items-center gap-2 px-4 py-2 w-full hover:bg-orange-600 rounded cursor-pointer"
         onClick={() => setSearchOpen(!searchOpen)}
       >
         <FiSearch />
@@ -43,20 +47,19 @@ export default function SidebarNav({
             placeholder="Search titles..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="mt-2 mb-1 w-full px-3 py-1 border rounded text-sm"
+            className="mt-2 mb-1 w-full px-3 py-1 border border-amber-800 rounded text-sm text-amber-950"
           />
         </div>
       )}
 
-      <div className="flex items-center justify-between pr-4">
-        <button className="flex items-center gap-2 px-4 py-2 w-full hover:bg-gray-100">
-          <FiFileText />
+      <div className="flex items-center justify-between pr-4 w-full">
+        <button className="flex items-center gap-2 px-4 py-2 w-full text-sm bg-orange-200 rounded-l">
           <span>My Pages</span>
         </button>
 
         <button
           onClick={handleCreatePage}
-          className="p-1 hover:bg-gray-200 rounded"
+          className="py-2.5 px-2 bg-orange-200 hover:bg-orange-600 rounded-r cursor-pointer"
           title="New Page"
         >
           <FiPlus />

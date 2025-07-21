@@ -125,28 +125,28 @@ const TiptapEditor = ({
   const debounceTimer = useRef(null);
 
   const editor = useEditor({
-  editable: canEdit,
-  enableContentCheck: true,
-  onContentError: ({ disableCollaboration }) => {
-    disableCollaboration();
-  },
-  onUpdate: ({ editor }) => {
-    if (!canEdit) return;
+    editable: canEdit,
+    enableContentCheck: true,
+    onContentError: ({ disableCollaboration }) => {
+      disableCollaboration();
+    },
+    onUpdate: ({ editor }) => {
+      if (!canEdit) return;
 
-    clearTimeout(debounceTimer.current);
+      clearTimeout(debounceTimer.current);
 
-    debounceTimer.current = setTimeout(() => {
-      try {
-        const html = editor.getHTML();
-        console.log("Auto-saving content:", html);
-        onEditorContentSave(html);
-      } catch (err) {
-        console.error("Failed to getHTML:", err);
-      }
-    }, 1500);
-  },
-  extensions,
-});
+      debounceTimer.current = setTimeout(() => {
+        try {
+          const html = editor.getHTML();
+          console.log("Auto-saving content:", html);
+          onEditorContentSave(html);
+        } catch (err) {
+          console.error("Failed to getHTML:", err);
+        }
+      }, 1500);
+    },
+    extensions,
+  });
 
   useEffect(() => {
     if (editor && currentUser) {
@@ -173,74 +173,75 @@ const TiptapEditor = ({
   }, [provider]);
 
   // fixes the bug of abnormal behaviour of the pages content.
-  if(cannotAccess) {
+  if (cannotAccess) {
     useEffect(() => {
-    if (editor && initialContent !== editor.getHTML()) {
-      editor.commands.setContent(initialContent, false); // false = don't add to history
-    }
-  }, [editor, initialContent]);
+      if (editor && initialContent !== editor.getHTML()) {
+        editor.commands.setContent(initialContent, false); // false = don't add to history
+      }
+    }, [editor, initialContent]);
   }
-  
 
   if (!editor) {
     return null;
   }
 
   return (
-    <div className="editor-shield">
+    <div>
       {canEdit && <EditorToolbar editor={editor} />}
-      <div>
-        <BubbleMenuComponent
-          editor={editor}
-          // commentsMap={comments}
-          // setCommentsMap={setComments}
-        />
+      {/* <div> */}
+      <BubbleMenuComponent
+        editor={editor}
+        // commentsMap={comments}
+        // setCommentsMap={setComments}
+      />
 
-        <EditorContent editor={editor} />
+      <div className="editor-shield bg-white">
+        <EditorContent editor={editor}/>
+        {/* </div> */}
+
+        <div
+          className="collab-status-group"
+          data-state={status === "connected" ? "online" : "offline"}
+        >
+          {currentUser && (
+            <div
+              style={{
+                backgroundColor: currentUser.color,
+                padding: "4px 8px",
+                borderRadius: "4px",
+                color: "white",
+                marginLeft: "8px",
+              }}
+            >
+              👤 {currentUser.name}
+            </div>
+          )}
+          {onlineUsers.length > 1 && (
+            <div className="mt-2 flex gap-2 items-center text-sm flex-wrap">
+              👀 Others viewing:
+              {onlineUsers
+                .filter((u) => u.name !== currentUser?.name)
+                .map((user, index) => (
+                  <div
+                    key={index}
+                    className="px-2 py-1 rounded text-white"
+                    style={{
+                      backgroundColor: user.color || "#ccc",
+                    }}
+                  >
+                    {user.name}
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div
-        className="collab-status-group"
-        data-state={status === "connected" ? "online" : "offline"}
-      >
-        {currentUser && (
-          <div
-            style={{
-              backgroundColor: currentUser.color,
-              padding: "4px 8px",
-              borderRadius: "4px",
-              color: "white",
-              marginLeft: "8px",
-            }}
-          >
-            👤 {currentUser.name}
-          </div>
-        )}
-        {onlineUsers.length > 1 && (
-          <div className="mt-2 flex gap-2 items-center text-sm flex-wrap">
-            👀 Others viewing:
-            {onlineUsers
-              .filter((u) => u.name !== currentUser?.name)
-              .map((user, index) => (
-                <div
-                  key={index}
-                  className="px-2 py-1 rounded text-white"
-                  style={{
-                    backgroundColor: user.color || "#ccc",
-                  }}
-                >
-                  {user.name}
-                </div>
-              ))}
-          </div>
-        )}
-      </div>
-
-{!canEdit && (
-  <div className="p-2 bg-yellow-100 text-yellow-800 rounded mb-2 text-sm border border-yellow-300">
-    🔒 This document is in <strong>view-only</strong> mode.
-  </div>
-)}
+      {!canEdit && (
+        <div className="p-2 bg-yellow-100 text-yellow-800 rounded mb-2 text-sm border border-yellow-300">
+          🔒 This document is in <strong>view-only</strong> mode.
+        </div>
+      )}
 
       {/* <button onClick={handleEditorContent}>Save</button> */}
     </div>

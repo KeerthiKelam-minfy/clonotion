@@ -4,7 +4,11 @@
   all: revert;
 }
 
-.comment-mark {
+/* .comment-mark {
   background-color: yellow;
   border-bottom: 1px dotted #333;
+} */
+
+.is-active {
+  @apply bg-orange-300 font-medium rounded;
 }

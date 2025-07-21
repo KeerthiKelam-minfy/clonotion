@@ -31,32 +31,32 @@ const BubbleMenuComponent = ({ editor }) => {
   //   setCommentInput("");
   // };
 
-//   // Optional: detect selection update and auto-show comment input
-//   useEffect(() => {
-//   const handler = ({ editor }) => {
-//     const marks = editor.getAttributes("comment");
-//     const commentId = marks.commentId || null;
+  //   // Optional: detect selection update and auto-show comment input
+  //   useEffect(() => {
+  //   const handler = ({ editor }) => {
+  //     const marks = editor.getAttributes("comment");
+  //     const commentId = marks.commentId || null;
 
-//     if (commentId && commentsMap[commentId]) {
-//       setCommentInput(commentsMap[commentId]);
-//       setActiveCommentId(commentId);
-//     } else {
-//       setActiveCommentId(null);
-//       setCommentInput("");
-//     }
-//   };
+  //     if (commentId && commentsMap[commentId]) {
+  //       setCommentInput(commentsMap[commentId]);
+  //       setActiveCommentId(commentId);
+  //     } else {
+  //       setActiveCommentId(null);
+  //       setCommentInput("");
+  //     }
+  //   };
 
-//   editor.on("selectionUpdate", handler);
+  //   editor.on("selectionUpdate", handler);
 
-//   return () => {
-//     editor.off("selectionUpdate", handler);
-//   };
-// }, [editor, commentsMap]);
+  //   return () => {
+  //     editor.off("selectionUpdate", handler);
+  //   };
+  // }, [editor, commentsMap]);
 
   return (
     <div>
-      <BubbleMenu editor={editor} options={{ placement: "bottom", offset: 8 }}>
-        <div className="bubble-menu space-x-2 bg-white border rounded px-3 py-2 shadow">
+      <BubbleMenu editor={editor} options={{ placement: "bottom", offset: 8 }}>     
+        <div className="no-editor-shield flex gap-1 bg-white border border-amber-500 rounded px-2 py-1 [&>button]:border-none [&>button]:px-2 [&>button]:py-1 [&>button]:rounded [&>button]:hover:bg-yellow-50 [&>button]:cursor-pointer">
           <button onClick={() => editor.chain().focus().toggleBold().run()}>
             <b>B</b>
           </button>
@@ -66,7 +66,31 @@ const BubbleMenuComponent = ({ editor }) => {
           <button onClick={() => editor.chain().focus().toggleStrike().run()}>
             <s>S</s>
           </button>
-          
+          <button
+            onClick={() => editor.chain().focus().toggleUnderline().run()}
+          >
+            <u>U</u>
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleCode().run()}
+            disabled={!editor.can().chain().focus().toggleCode().run()}
+            className={editor.isActive("code") ? "is-active" : ""}
+          >
+            Code
+          </button>
+          {[1, 2, 3].map((level) => (
+            <button
+              key={level}
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level }).run()
+              }
+              className={
+                editor.isActive("heading", { level }) ? "is-active" : ""
+              }
+            >
+              H{level}
+            </button>
+          ))}
           {/* <button onClick={addComment}> Add Comment</button>
           <button onClick={removeComment}> Remove</button> */}
         </div>
