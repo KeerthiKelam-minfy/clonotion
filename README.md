@@ -6,7 +6,7 @@ Clonotion - A real time collaboration tool with rich text editing capabilities t
   
 ## **Setup Instructions**
   
-## Clone the repository
+## 1. Clone the repository
   
 use this command: 
   
@@ -15,11 +15,11 @@ git clone “https://KeerthiKelam-minfy/clonotion”
 cd clonotion
 ```
   
-## Setup Instructions
+## 2. Setup .env files
   
 Setup your own environment variables using the env.example file, in both frontend and backend.
   
-## Install dependencies
+## 3. Install dependencies
   
 ```jsx
 cd frontend
@@ -29,15 +29,15 @@ cd backend
 npm i
 ```
   
-## Create a new firebase project
+## 4. Create a new firebase project
   
 Create a new project in firebase and enable firebase auth and firestore database.
   
-## Setup firestore rules
+## 5. Setup firestore rules
   
 After setting up firestore, write firebase rules for setting permissions for different CRUD operations for different roles (owner, viewer, editor).
   
-## Start the servers
+## 6. Start the servers
   
 1. Run your frontend using the command
   
