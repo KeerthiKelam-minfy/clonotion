@@ -55,7 +55,39 @@ npm start
   
 -- Make sure you are connected to a stable internet connection.  
 -- Then share a document with your friends and start collaborating.
-    
+  
+  
+  
+## Features
+  
+- User authentication (with Firebase Auth)  
+- CRUD operations for documents  
+- Rich-text editing with Tiptap  
+- Real-time collaboration using **WebRTC** + **Yjs**  
+- Live cursors and multi-user presence  
+- Viewing  users List  
+- REST API with OpenAPI 3.0 spec + Swagger UI  
+  
+After starting the backend, you can view the openAPI spec on:  
+[Swagger UI](http://localhost:5000/api-docs/)  
+
+   
+## Tech Stack:
+
+**Frontend** - React, Tiptap, Tailwind CSS  
+
+**Backend** - Node.js, Express.js  
+
+**Auth** - Firebase Auth  
+
+**Database** - Firebase Firestore  
+
+**Realtime Sync** - WebRTC, Yjs  
+  
+**WebRTC Signaling server** - https://y-webrtc-server-60a7.onrender.com/  
+  
+  
+     
 ### Application Interface Demo:  
    
 **Landing Page**
