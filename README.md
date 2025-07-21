@@ -46,12 +46,12 @@ cd frontend
 npm run dev
 ```
 
-1. Start your backend server also - using the command  
+2. Start your backend server also - using the command  
 
 ```jsx
 cd backend
 npm start
 ```
 
-1. Make sure you are connected to a stable internet connection.
-2. Then share a document with your friends and start collaborating.
+-- Make sure you are connected to a stable internet connection.
+-- Then share a document with your friends and start collaborating.
