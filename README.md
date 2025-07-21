@@ -11,7 +11,7 @@ Clonotion - A real time collaboration tool with rich text editing capabilities t
 use this command: 
   
 ```jsx
-git clone “https://KeerthiKelam-minfy/clonotion”
+git clone "https://github.com/KeerthiKelam-minfy/clonotion.git"
 cd clonotion
 ```
   
